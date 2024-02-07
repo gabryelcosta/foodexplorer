@@ -5,7 +5,7 @@ name VARCHAR,
 email VARCHAR,
 password VARCHAR,
 avatar VARCHAR NULL,
-theme_preference VARCHAR DEFAULT 'default',
+theme_preference VARCHAR DEFAULT 'light',
 role TEXT CHECK( role IN ('admin', 'sale', 'usuario') ) NOT NULL,
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

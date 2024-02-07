@@ -17,6 +17,7 @@ const usersValidatedController = new UsersValidatedController();
 // usersRoutes.get("/validated", ensureAuthenticated, usersValidatedController.index);
 usersRoutes.post("/", usersController.create);
 usersRoutes.put("/", ensureAuthenticated, usersController.update);
+usersRoutes.get("/theme", ensureAuthenticated, usersController.getTheme);
 usersRoutes.patch("/avatar", ensureAuthenticated, upload.single("avatar"), usersAvatarController.update);
 
 module.exports = usersRoutes;

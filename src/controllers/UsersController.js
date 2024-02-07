@@ -1,4 +1,5 @@
 // UsersController.js
+const AppError = require("../utils/AppError");
 const UserRepository = require("../repositories/UserRepository");
 const UserCreateService = require("../services/UserCreateService");
 const UserUpdateService = require("../services/UserUpdateService");
@@ -24,6 +25,19 @@ class UsersController {
     await userUpdateService.execute({ user_id, name, email, password, old_password, theme_preference });
 
     return response.status(200).json();
+  }
+
+  async getTheme(request, response) {
+    const { id: user_id } = request.user;
+
+    const userRepository = new UserRepository();
+    const { theme_preference } = await userRepository.findById(user_id);
+
+    if (!theme_preference) {
+      throw new AppError("Usuário não encontrado.");
+    }
+
+    return response.json({ theme: theme_preference });
   }
 }
 
