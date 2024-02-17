@@ -3,6 +3,15 @@ const path = require ("path");
 const uploadConfig = require("../configs/upload");
 
 class DiskStorage {
+  constructor() {
+    this.ensureUploadDirExists();
+  }
+
+  ensureUploadDirExists() {
+    const uploadDir = path.resolve(uploadConfig.UPLOADS_FOLDER);
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
+
   async saveFile(file){
     await fs.promises.rename(
       path.resolve(uploadConfig.TMP_FOLDER, file),
