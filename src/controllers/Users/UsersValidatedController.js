@@ -1,5 +1,5 @@
-const sqliteConnection = require("../database/sqlite");
-const AppError = require("../utils/AppError");
+const sqliteConnection = require("../../database/sqlite");
+const AppError = require("../../utils/AppError");
 
 class UsersValidatedController {
   async index(request, response) {

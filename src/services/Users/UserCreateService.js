@@ -1,5 +1,5 @@
 const { hash } = require("bcryptjs");
-const AppError = require("../utils/AppError");
+const AppError = require("../../utils/AppError");
 
 class UserCreateService {
   constructor(userRepository){
@@ -10,7 +10,6 @@ class UserCreateService {
     const checkUserExists = await this.userRepository.findByEmail(email);
 
     if(checkUserExists){
-      console.log('User already exists with this email:', email);
       throw new AppError("Este e-mail já está em uso.");
     }
 

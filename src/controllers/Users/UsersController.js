@@ -1,8 +1,8 @@
 // UsersController.js
-const AppError = require("../utils/AppError");
-const UserRepository = require("../repositories/UserRepository");
-const UserCreateService = require("../services/UserCreateService");
-const UserUpdateService = require("../services/UserUpdateService");
+const AppError = require("../../utils/AppError");
+const UserRepository = require("../../repositories/Users/UserRepository");
+const UserCreateService = require("../../services/Users/UserCreateService");
+const UserUpdateService = require("../../services/Users/UserUpdateService");
 
 class UsersController {
 

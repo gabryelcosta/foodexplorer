@@ -1,6 +1,6 @@
-const authConfig = require('../configs/auth');
-const AppError = require('../utils/AppError');
-const sqliteConnection = require("../database/sqlite");
+const authConfig = require('../../configs/auth');
+const AppError = require('../../utils/AppError');
+const sqliteConnection = require("../../database/sqlite");
 const { compare } = require('bcryptjs');
 const { sign } = require('jsonwebtoken');
 
