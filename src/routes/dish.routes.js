@@ -14,7 +14,9 @@ const upload = multer(uploadConfig.MULTER);
 dishRoutes.post("/uploadImage", upload.single("imageFile"), imageController.uploadDishImage);
 dishRoutes.delete("/deleteImage/:filename", imageController.deleteImage);
 dishRoutes.post("/", upload.single('imageFile'), dishController.create);
-dishRoutes.patch("/imageDish", upload.single("imageDish"), imageController.updateDishImage);
+dishRoutes.get('/', dishController.findAllWithIngredients);
+dishRoutes.get('/:id', dishController.findOneWithIngredients);
+dishRoutes.patch('/:id', upload.single('imageFile'), dishController.update);
 
 
 module.exports = dishRoutes;

@@ -13,13 +13,40 @@ class DishService {
       category,
       price,
       description,
-      ingredients, // Adicione isto
+      ingredients,
     };
 
     const createdDish = await this.dishRepository.create(dish);
 
     return createdDish;
   }
+
+  async findAllWithIngredients() {
+    const dishes = await this.dishRepository.findAllWithIngredients();
+
+    return dishes;
+  }
+
+  async findOneWithIngredients(id) {
+    const dish = await this.dishRepository.findOneWithIngredients(id);
+    return dish;
+  }
+
+  async update(id, { image, name, category, ingredients, price, description }) {
+    const dish = {
+      name,
+      image,
+      category,
+      price,
+      description,
+      ingredients,
+    };
+
+    const updatedDish = await this.dishRepository.update(id, dish);
+
+    return updatedDish;
+  }
 }
+
 
 module.exports = DishService;
