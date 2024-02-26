@@ -39,7 +39,7 @@ class DishRepository {
 
   async update(id, dishData) {
     const database = await sqliteConnection();
-    await database.run("UPDATE dishes SET image = ?, name = ?, category = ?, price = ?, description = ? WHERE id = ?", [dishData.image, dishData.name, dishData.category, dishData.price, dishData.description, id]);
+    await database.run("UPDATE dishes SET name = ?, category = ?, price = ?, description = ? WHERE id = ?", [dishData.name, dishData.category, dishData.price, dishData.description, id]);
 
     await database.run("DELETE FROM dish_ingredients WHERE dish_id = ?", [id]);
 
@@ -48,6 +48,15 @@ class DishRepository {
     }
 
     return { id: id, ...dishData };
+  }
+
+  async delete(id) {
+    const database = await sqliteConnection();
+
+    await database.run("DELETE FROM dish_ingredients WHERE dish_id = ?", [id]);
+
+
+    await database.run("DELETE FROM dishes WHERE id = ?", [id]);
   }
 }
 

@@ -17,6 +17,7 @@ dishRoutes.post("/", upload.single('imageFile'), dishController.create);
 dishRoutes.get('/', dishController.findAllWithIngredients);
 dishRoutes.get('/:id', dishController.findOneWithIngredients);
 dishRoutes.patch('/:id', upload.single('imageFile'), dishController.update);
+dishRoutes.delete('/:id', dishController.delete);
 
 
 module.exports = dishRoutes;

@@ -46,6 +46,10 @@ class DishService {
 
     return updatedDish;
   }
+
+  async delete(id) {
+    await this.dishRepository.delete(id);
+  }
 }
 
 

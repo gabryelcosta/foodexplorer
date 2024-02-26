@@ -35,25 +35,19 @@ class ImageService {
   }
 
   async updateDishImage(dish_id, imageFileName) {
-    console.log('updateDishImage called with', dish_id, imageFileName);
-
     const dishData = await this.imageRepository.findDishById(dish_id);
-    console.log('dishData', dishData);
 
     if (!dishData) {
       throw new Error(`Dish not found`);
     }
 
     if (dishData.image) {
-      console.log('Deleting existing image', dishData.image);
       await this.diskStorage.deleteFile(dishData.image);
     }
 
     const filename = await this.diskStorage.saveFile(imageFileName);
-    console.log('Saved new image', filename);
 
     await this.imageRepository.updateDishImage(dish_id, filename);
-    console.log('Updated dish image');
 
     dishData.image = filename;
     return dishData;
