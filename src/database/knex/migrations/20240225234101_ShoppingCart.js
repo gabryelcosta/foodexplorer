@@ -2,7 +2,8 @@ exports.up = function(knex) {
   return knex.schema.hasTable('shoppingCart').then(function(exists) {
     if (!exists) {
       return knex.schema.createTable('shoppingCart', function(table) {
-        table.increments('orderCode').primary().notNullable();
+        table.increments('id').primary().notNullable();
+        table.integer('orderCode').notNullable();
         table.integer('userId').notNullable();
         table.string('userName').notNullable();
         table.integer('dishId').notNullable();

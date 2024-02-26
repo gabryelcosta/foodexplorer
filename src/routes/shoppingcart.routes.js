@@ -7,6 +7,6 @@ const shoppingCartRoutes = Router();
 
 shoppingCartRoutes.post("/", shoppingCartController.addOrder);
 shoppingCartRoutes.get("/:userId", shoppingCartController.getOrders);
-shoppingCartRoutes.delete("/:orderCode", shoppingCartController.deleteOrder);
+shoppingCartRoutes.delete("/:id", shoppingCartController.deleteOrder);
 
 module.exports = shoppingCartRoutes;

@@ -9,7 +9,8 @@ exports.up = function(knex) {
         table.string('dishName').notNullable();
         table.string('userName').notNullable();
         table.timestamp('date').defaultTo(knex.fn.now());
-        table.enu('status', ['Pendente', 'Preparando', 'Entregue']).defaultTo('Pendente');
+        table.time('hour').defaultTo(knex.fn.now());
+        table.enu('status', ['Pendente', 'Preparando', 'Entregue', 'Cancelado']).defaultTo('Pendente');
         table.integer('quantity').notNullable();
         table.decimal('price').notNullable();
         table.decimal('totalPrice').notNullable();

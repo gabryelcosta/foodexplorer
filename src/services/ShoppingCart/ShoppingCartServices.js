@@ -5,8 +5,9 @@ class ShoppingCartService {
     this.shoppingCartRepository = new ShoppingCartRepository();
   }
 
-  async addOrder({ userId, userName, dishId, dishName, quantity, totalValue, dishPrice, image }) {
+  async addOrder({ orderCode, userId, userName, dishId, dishName, quantity, totalValue, dishPrice, image }) {
     const order = {
+      orderCode,
       userId,
       userName,
       dishId,
@@ -16,9 +17,7 @@ class ShoppingCartService {
       dishPrice,
       image,
     };
-    console.log('Enviando pedido para o repositório:', order);
     const result = await this.shoppingCartRepository.addItemToCart(order);
-    console.log('Resultado retornado do repositório:', result);
     return result;
   }
 
@@ -27,8 +26,8 @@ class ShoppingCartService {
     return orders;
   }
 
-  async deleteOrder(orderCode) {
-    await this.shoppingCartRepository.deleteOrder(orderCode);
+  async deleteOrder(id) {
+    await this.shoppingCartRepository.deleteOrder(id);
   }
 }
 

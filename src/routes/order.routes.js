@@ -5,6 +5,9 @@ const orderController = new OrderController();
 
 const ordersRoutes = Router();
 
-ordersRoutes.post("/orders/:userId", orderController.moveFromShoppingCartToOrders);
+ordersRoutes.post("/:userId", orderController.moveFromShoppingCartToOrders);
+ordersRoutes.get("/:userId", orderController.getOrdersByUserId);
+ordersRoutes.get("/", orderController.getAllOrders);
+ordersRoutes.put('/:orderId', orderController.updateOrderStatus);
 
 module.exports = ordersRoutes;

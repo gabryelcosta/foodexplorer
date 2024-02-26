@@ -1,12 +1,11 @@
 const sqliteConnection = require("../../database/sqlite");
 
 class ShoppingCartRepository {
-  async addItemToCart({ userId, userName, dishId, dishName, quantity, totalValue, dishPrice, image }) {
+  async addItemToCart({ orderCode, userId, userName, dishId, dishName, quantity, totalValue, dishPrice, image }) {
     try {
       const database = await sqliteConnection();
-      const { lastID } = await database.run("INSERT INTO shoppingCart (userId, userName, dishId, dishName, quantity, totalValue, dishPrice, image) VALUES (?,?,?,?,?,?,?,?)", [userId, userName, dishId, dishName, quantity, totalValue, dishPrice, image]);
-      const item = await database.get("SELECT * FROM shoppingCart WHERE orderCode = ?", [lastID]);
-      console.log('Item adicionado ao carrinho:', item);
+      const { lastID } = await database.run("INSERT INTO shoppingCart (orderCode, userId, userName, dishId, dishName, quantity, totalValue, dishPrice, image) VALUES (?,?,?,?,?,?,?,?,?)", [orderCode, userId, userName, dishId, dishName, quantity, totalValue, dishPrice, image]);
+      const item = await database.get("SELECT * FROM shoppingCart WHERE id = ?", [lastID]);
       return item;
     } catch (error) {
       console.error('Erro ao adicionar item ao carrinho:', error);
@@ -20,9 +19,9 @@ class ShoppingCartRepository {
     return orders;
   }
 
-  async deleteOrder(orderCode) {
+  async deleteOrder(id) {
     const database = await sqliteConnection();
-    await database.run("DELETE FROM shoppingCart WHERE orderCode = ?", [orderCode]);
+    await database.run("DELETE FROM shoppingCart WHERE id = ?", [id]);
   }
 }
 

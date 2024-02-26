@@ -6,15 +6,12 @@ class ShoppingCartController {
     this.addOrder = this.addOrder.bind(this);
     this.getOrders = this.getOrders.bind(this);
     this.deleteOrder = this.deleteOrder.bind(this);
-    console.log('ShoppingCartService:', this.shoppingCartService);
   }
 
   async addOrder(req, res) {
-    const { userId, userName, dishId, dishName, quantity, totalValue, dishPrice, image } = req.body;
-    console.log(`userId: ${userId}, dishId: ${dishId}, quantity: ${quantity}, userName: ${userName}, dishName: ${dishName}, totalPrice: ${totalValue}, dishPrice: ${dishPrice}`);
+    const { orderCode, userId, userName, dishId, dishName, quantity, totalValue, dishPrice, image } = req.body;
     try {
-      const order = await this.shoppingCartService.addOrder({ userId, userName, dishId, dishName, quantity, totalValue, dishPrice, image });
-      console.log('Pedido retornado do serviço:', order);
+      const order = await this.shoppingCartService.addOrder({ orderCode, userId, userName, dishId, dishName, quantity, totalValue, dishPrice, image });
       res.json(order);
     } catch (error) {
       console.error('Erro ao adicionar pedido:', error);
@@ -34,9 +31,9 @@ class ShoppingCartController {
   }
 
   async deleteOrder(req, res) {
-    const { orderCode } = req.params;
+    const { id } = req.params;
     try {
-      await this.shoppingCartService.deleteOrder(orderCode);
+      await this.shoppingCartService.deleteOrder(id);
       res.json({ message: 'Pedido deletado com sucesso.' });
     } catch (error) {
       console.error('Erro ao deletar pedido:', error);

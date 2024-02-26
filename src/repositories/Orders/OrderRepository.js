@@ -2,29 +2,44 @@ const sqliteConnection = require("../../database/sqlite");
 
 class OrderRepository {
   async moveFromShoppingCartToOrders(userId) {
-    const database = await sqliteConnection();
+    const { format } = require('date-fns');
+    try {
+      const database = await sqliteConnection();
 
-    console.log('Buscando itens do carrinho para o usuário:', userId);
-    const shoppingCartItems = await database.all("SELECT * FROM shoppingCart WHERE userId = ?", [userId]);
-    console.log('Itens do carrinho:', shoppingCartItems);
+      const shoppingCartItems = await database.all("SELECT * FROM shoppingCart WHERE userId = ?", [userId]);
+      for (const item of shoppingCartItems) {
+        const formattedDate = format(new Date(), 'dd/MM/yyyy');
+        const formattedHour = format(new Date(), 'HH:mm');
+        await database.run(
+          "INSERT INTO orders (userId, dishId, quantity, userName, dishName, totalPrice, date, hour, status, orderCode, price) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+          [item.userId, item.dishId, item.quantity, item.userName, item.dishName, item.totalValue, formattedDate, formattedHour, 'Pendente', item.orderCode, item.dishPrice]
+        );
+      }
 
-    console.log('Movendo itens para pedidos...');
-    for (const item of shoppingCartItems) {
-      await database.run(
-        "INSERT INTO orders (userId, dishId, quantity, userName, dishName, totalPrice, date, status) VALUES (?,?,?,?,?,?,?,?)",
-        [item.userId, item.dishId, item.quantity, item.userName, item.dishName, item.totalPrice, new Date(), 'Pendente']
-      );
+      await database.run("DELETE FROM shoppingCart WHERE userId = ?", [userId]);
+
+      const orders = await database.all("SELECT * FROM orders WHERE userId = ?", [userId]);
+
+      return orders;
+    } catch (error) {
+      console.error('Erro no repositório:', error);
+      throw error;
     }
+  }
 
-    console.log('Removendo itens do carrinho...');
-    await database.run("DELETE FROM shoppingCart WHERE userId = ?", [userId]);
+  async getOrdersByUserId(userId) {
+    const database = await sqliteConnection();
+    return database.all("SELECT * FROM orders WHERE userId = ?", [userId]);
+  }
 
-    console.log('Buscando novos pedidos...');
-    const orders = await database.all("SELECT * FROM orders WHERE userId = ?", [userId]);
-    console.log('Novos pedidos:', orders);
+  async getAllOrders() {
+    const database = await sqliteConnection();
+    return database.all("SELECT * FROM orders");
+  }
 
-    return orders;
+  async updateOrderStatus(orderId, status) {
+    const database = await sqliteConnection();
+    return database.run("UPDATE orders SET status = ? WHERE orderCode = ?", [status, orderId]);
   }
 }
-
 module.exports = OrderRepository;
